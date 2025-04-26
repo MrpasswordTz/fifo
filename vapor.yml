@@ -1,0 +1,26 @@
+vaporid: 12345
+name: gps-tracker-backend
+environments:
+  production:
+    memory: 1024
+    runtime: php-8.2:alpine
+    cli-memory: 512
+    cli-runtime: php-8.2:alpine
+    build:
+      - "composer install --no-dev --optimize-autoloader"
+      - "npm install"
+      - "npm run prod"
+    deploy:
+      - "php artisan migrate --force"
+    storage:
+      - name: app
+        path: storage/app
+      - name: logs
+        path: storage/logs
+    cache:
+      - name: default
+        driver: redis
+    database: your-database-connection-name
+    queues:
+      - default
+    schedule: true
